@@ -1,8 +1,5 @@
 import getpass
-from github import Github
-from github import Repo
 import json
-import os.path
 
 username = input('Enter your Leetcode username: ')
 session_id = getpass.getpass('Enter your leetcode session ID: ')
