@@ -37,7 +37,7 @@ def get_recent_submission_code(submission_id):
         "LEETCODE_SESSION": user_info["session_id"]
     }
 
-    res = req.post(url, json=submission_data).json()
+    res = req.post(request_url, json=submission_data).json()
 
     return res["data"]["submissionDetails"]["code"]
 
