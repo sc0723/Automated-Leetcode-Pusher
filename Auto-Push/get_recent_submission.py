@@ -30,7 +30,7 @@ def get_recent_submission_code(submission_id):
 
     submission_data = {
         "query": code_query,
-        "variables" = {"submissionId" : submission_id}
+        "variables": {"submissionId" : submission_id}
     }
 
     cookies = {
