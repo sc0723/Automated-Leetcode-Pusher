@@ -20,7 +20,7 @@ def get_recent_submission(user):
     }
 
     res = req.post(request_url, json=user_data).json()
-
+    print("Got this response for submission:", res)
     return res["data"]["recentAcSubmissionList"][0]
 
 
@@ -38,13 +38,13 @@ def get_recent_submission_code(submission_id):
     }
 
     res = req.post(request_url, cookies=cookies, json=submission_data).json()
-
+    print("Got this response for code:", res)
     return res["data"]["submissionDetails"]["code"]
 
 def write_code_to_file(title, id):
     code = get_recent_submission_code(id)
 
-    with open(f"{title}.py", "w") as f:
+    with open(f"/Users/saarthchaturvedi/Documents/Personal-Projects/Leetcode-Solutions/{title}.py", "w") as f:
         f.write(code)
 
 def update():
@@ -63,6 +63,20 @@ def update():
         subprocess.run(["git", "add", "."], cwd="..")
         subprocess.run(["git", "commit", "-m", title], cwd="..")
         subprocess.run(["git", "push"])
+    
+    else:
+        with open("prev_submission_id.txt", "r") as file:
+            prev_submission_id = file.read()
+            
+        if sub_id != prev_submission_id:
+            with open("prev_submission_id.txt", "w") as file:
+                file.write(sub_id)
+            
+            write_code_to_file(title, sub_id)
+            
+            subprocess.run(["git", "add", "."], cwd="..")
+            subprocess.run(["git", "commit", "-m", title], cwd="..")
+            subprocess.run(['git', 'push'])
 
 schedule.every(30).seconds.do(update)
 
